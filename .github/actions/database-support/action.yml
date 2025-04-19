@@ -1,0 +1,13 @@
+name: "database support"
+description: "database support"
+runs:
+  using: composite
+  steps:
+    - run: |
+        sudo apt-get update
+        sudo apt-get install --yes postgresql-client
+        wget -qO- https://download.red-gate.com/maven/release/org/flywaydb/enterprise/flyway-commandline/9.22.3/flyway-commandline-9.22.3-linux-x64.tar.gz | tar -xvz && sudo ln -s `pwd`/flyway-9.22.3/flyway /usr/local/bin
+        curl -o cloud-sql-proxy https://storage.googleapis.com/cloud-sql-connectors/cloud-sql-proxy/v2.8.1/cloud-sql-proxy.linux.amd64
+        chmod +x cloud-sql-proxy
+        sudo mv cloud-sql-proxy /usr/bin/cloud-sql-proxy
+      shell: bash
