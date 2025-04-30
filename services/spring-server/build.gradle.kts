@@ -8,6 +8,7 @@ dependencies {
     implementation(project(":components:accounts"))
     implementation(project(":components:jdbc-support"))
     implementation(project(":components:metrics-support"))
+    implementation(project(":components:test-support"))
     implementation(project(":components:web-support"))
 
     implementation("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
