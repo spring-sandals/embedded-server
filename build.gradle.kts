@@ -15,12 +15,13 @@ subprojects {
         mavenCentral()
     }
 
-    val springVersion: String by project
+    val logbackVersion: String by project
     val slf4jVersion: String by project
+    val springVersion: String by project
 
     dependencies {
+        implementation("ch.qos.logback:logback-classic:$logbackVersion")
         implementation("org.slf4j:slf4j-api:$slf4jVersion")
-        implementation("org.slf4j:slf4j-simple:$slf4jVersion")
         implementation("org.springframework:spring-context:$springVersion")
         implementation("org.springframework:spring-context-support:$springVersion")
 

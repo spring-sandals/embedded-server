@@ -2,20 +2,25 @@ val dropwizardVersion: String by project
 val freemarkerVersion: String by project
 val jacksonVersion: String by project
 val jettyVersion: String by project
+val kafkaClientsVersion: String by project
+val springKafkaVersion: String by project
 val springVersion: String by project
 
 dependencies {
     implementation(project(":components:accounts"))
     implementation(project(":components:jdbc-support"))
     implementation(project(":components:metrics-support"))
-    implementation(project(":components:test-support"))
     implementation(project(":components:web-support"))
 
     implementation("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
     implementation("io.dropwizard.metrics:metrics-core:$dropwizardVersion")
+    implementation("org.apache.kafka:kafka-clients:$kafkaClientsVersion")
     implementation("org.freemarker:freemarker:$freemarkerVersion")
+    implementation("org.springframework.kafka:spring-kafka:$springKafkaVersion")
     implementation("org.springframework:spring-jdbc:$springVersion")
     implementation("org.springframework:spring-webmvc:$springVersion")
+
+    testImplementation(project(":components:test-support"))
 }
 
 tasks.register<JavaExec>("run", fun JavaExec.() {

@@ -8,6 +8,10 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.PropertySource
 import org.springframework.jdbc.core.JdbcTemplate
+import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory
+import org.springframework.kafka.core.DefaultKafkaConsumerFactory
+import org.springframework.kafka.core.DefaultKafkaProducerFactory
+import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer
 import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver
 
@@ -18,8 +22,39 @@ open class Application {
     @Value("\${com.sandals.server.postgresql.url:\${DATABASE_URL}}")
     private val postgresqlURL: String = ""
 
+    @Value("\${com.sandals.server.kafka.bootstrap.servers:\${KAFKA_BOOTSTRAP_SERVERS}}")
+    private val kafkaBootstrapServers: String = ""
+
+    @Value("\${com.sandals.server.kafka.security.protocol:\${KAFKA_SECURITY_PROTOCOL}}")
+    private val kafkaSecurityProtocol: String = ""
+
     @Bean
     open fun getJdbcTemplate() = JdbcTemplate(dataSource(postgresqlURL, 1))
+
+    @Bean
+    open fun kafkaTemplate(): KafkaTemplate<String, String> {
+        val configs = mapOf(
+            "key.serializer" to "org.apache.kafka.common.serialization.StringSerializer",
+            "value.serializer" to "org.apache.kafka.common.serialization.StringSerializer",
+            "bootstrap.servers" to kafkaBootstrapServers,
+            "security.protocol" to kafkaSecurityProtocol
+        )
+        return KafkaTemplate(DefaultKafkaProducerFactory(configs))
+    }
+
+    @Bean
+    open fun kafkaListenerContainerFactory(): ConcurrentKafkaListenerContainerFactory<String, String> {
+        val configs = mapOf(
+            "key.deserializer" to "org.apache.kafka.common.serialization.StringDeserializer",
+            "value.deserializer" to "org.apache.kafka.common.serialization.StringDeserializer",
+            "auto.offset.reset" to "earliest",
+            "bootstrap.servers" to kafkaBootstrapServers,
+            "security.protocol" to kafkaSecurityProtocol
+        )
+        val containerFactory = ConcurrentKafkaListenerContainerFactory<String, String>()
+        containerFactory.consumerFactory = DefaultKafkaConsumerFactory(configs)
+        return containerFactory
+    }
 
     @Bean
     open fun metricRegistry() = MetricRegistry()
