@@ -2,9 +2,12 @@ val dropwizardVersion: String by project
 val freemarkerVersion: String by project
 val jacksonVersion: String by project
 val jettyVersion: String by project
+val kafkaClientsVersion: String by project
+val springKafkaVersion: String by project
 val springVersion: String by project
 
 dependencies {
+    implementation(project(":components:accounts"))
     implementation(project(":components:support-jdbc"))
     implementation(project(":components:support-metrics"))
     implementation(project(":components:support-web"))
@@ -14,6 +17,8 @@ dependencies {
     implementation("io.dropwizard.metrics:metrics-core:$dropwizardVersion")
     implementation("org.freemarker:freemarker:$freemarkerVersion")
     implementation("org.springframework:spring-webmvc:$springVersion")
+
+    implementation("org.springframework:spring-jdbc:$springVersion")
 
     testImplementation(project(":components:support-test"))
 }

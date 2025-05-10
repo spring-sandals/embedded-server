@@ -1,16 +1,26 @@
 package com.sandals.server
 
 import com.codahale.metrics.MetricRegistry
+import com.sandals.jdbc.dataSource
 import com.sandals.web.EmbeddedServer
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.PropertySource
+import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer
 import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver
 
 @Configuration
 @PropertySource("classpath:application.properties", ignoreResourceNotFound = true)
 open class Application {
+
+    @Value("\${com.sandals.server.postgresql.url:\${DATABASE_URL}}")
+    private val postgresqlURL: String = ""
+
+    @Bean
+    open fun getJdbcTemplate() = JdbcTemplate(dataSource(postgresqlURL, 1))
+
     @Bean
     open fun metricRegistry() = MetricRegistry()
 

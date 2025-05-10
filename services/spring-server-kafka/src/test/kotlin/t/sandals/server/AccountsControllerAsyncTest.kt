@@ -2,6 +2,7 @@ package t.sandals.server
 
 import com.sandals.server.AccountsProcessorAsync
 import com.sandals.test.TestServer
+import listenerContainerFactory
 import org.apache.kafka.clients.admin.NewTopic
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -12,7 +13,6 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpStatus
 import org.springframework.kafka.annotation.EnableKafka
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory
-import org.springframework.kafka.core.DefaultKafkaConsumerFactory
 import org.springframework.kafka.core.DefaultKafkaProducerFactory
 import org.springframework.kafka.core.KafkaAdmin
 import org.springframework.kafka.core.KafkaTemplate
@@ -79,9 +79,7 @@ open class AccountsControllerAsyncTest() {
                 "bootstrap.servers" to "localhost:9094",
                 "security.protocol" to "PLAINTEXT",
             )
-            val containerFactory = ConcurrentKafkaListenerContainerFactory<String, String>()
-            containerFactory.consumerFactory = DefaultKafkaConsumerFactory(configs)
-            return containerFactory
+            return listenerContainerFactory(configs)
         }
     }
 }
