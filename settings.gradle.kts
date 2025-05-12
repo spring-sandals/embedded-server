@@ -14,6 +14,7 @@ include(
     "components:support-jdbc",
     "components:support-kafka",
     "components:support-metrics",
+    "components:support-rabbitmq",
     "components:support-test",
     "components:support-web"
 )

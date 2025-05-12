@@ -15,6 +15,11 @@ services:
       - 9094:9094
     volumes:
       - "kafka_data:/bitnami"
+  rabbitmq:
+    image: rabbitmq:3.10.5-management
+    ports:
+      - 5672:5672
+      - 15672:15672
 volumes:
   kafka_data:
     driver: local

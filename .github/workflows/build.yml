@@ -33,6 +33,11 @@ jobs:
         ports:
           - 9092:9092
           - 9094:9094
+      rabbitmq:
+        image: rabbitmq:3.10.5-management
+        ports:
+          - 5672:5672
+          - 15672:15672
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
