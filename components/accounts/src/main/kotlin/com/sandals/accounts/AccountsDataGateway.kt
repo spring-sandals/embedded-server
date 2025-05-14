@@ -6,10 +6,22 @@ import org.springframework.stereotype.Repository
 @Repository
 class AccountsDataGateway(private val jdbcTemplate: JdbcTemplate) {
 
-    fun getAccounts(): List<Account> = jdbcTemplate.query("select name, total_contract_value from accounts") { rs, _ ->
+    fun getAccounts(): List<Account> = jdbcTemplate.query("select id, name, value from accounts") { rs, _ ->
         Account(
-            rs.getString("name"),
-            rs.getDouble("total_contract_value")
+            rs.getLong(1),
+            rs.getString(2),
+            rs.getDouble(3)
         )
     }
+
+    fun getAccount(id: Long): Account? = jdbcTemplate.queryForObject(
+        "select id, name, value from accounts where id = ?",
+        { rs, _ ->
+            Account(
+                rs.getLong(1),
+                rs.getString(2),
+                rs.getDouble(3)
+            )
+        }, id
+    )
 }

@@ -1,3 +1,5 @@
 package com.sandals.accounts
 
-data class Account(val name: String, val totalContractValue: Double = 0.00)
+import java.io.Serializable
+
+class Account(val id: Long, val name: String, val value: Double = 0.00) : Serializable

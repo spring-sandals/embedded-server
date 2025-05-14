@@ -29,7 +29,7 @@ _please refer to dependency documentation if any of the toolchain is new._
 
 1. Set up the database.
    ```bash
-   psql postgres < ./databases/create_databases.sql
+   PGPASSWORD=postgresql psql --host localhost --username postgresql < databases/create_databases.sql
    flyway -reportEnabled=false -cleanDisabled=false -user=initialdev -password=initialdev -url="jdbc:postgresql://localhost/sandals_development" -locations=filesystem:databases/spring clean migrate
    flyway -reportEnabled=false -cleanDisabled=false -user=initialdev -password=initialdev -url="jdbc:postgresql://localhost/sandals_test" -locations=filesystem:databases/spring clean migrate
    ```
